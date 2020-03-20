@@ -9,7 +9,12 @@ use std::path::Path;
 use walkdir::WalkDir;
 
 fn check_dir(path: &str, query: &str) {
-    for e in WalkDir::new(path).into_iter().filter_map(|e| e.ok()) {
+    let mut total_files_scanned = 0;
+    for (fl_no, e) in WalkDir::new(path)
+        .into_iter()
+        .filter_map(|e| e.ok())
+        .enumerate()
+    {
         if e.metadata().unwrap().is_file() {
             match fstream::contains(e.path(), query) {
                 Some(b) => {
@@ -17,25 +22,36 @@ fn check_dir(path: &str, query: &str) {
                         check_file(e.path(), query);
                     }
                 }
-                None => println!("nothing"),
+                None => println!("Error in walking Dir"),
             }
         }
+        total_files_scanned = fl_no;
     }
+
+    println!(
+        "Total Scanned files {}",
+        total_files_scanned.to_string().bold()
+    );
 }
 
 fn check_file(file_path: &Path, query: &str) {
+    println!(
+        "In file {}\n",
+        file_path.display().to_string().magenta().italic()
+    );
     match fstream::read_lines(file_path) {
         Some(s) => {
             for (pos, s) in s.iter().enumerate() {
                 if s.contains(query) {
-                    print!("{}", "Line ".green());
-                    print!("{} ", pos.to_string().yellow());
-                    println!("=> {}", s.trim().red());
+                    print!("{}", "Line ".green().bold());
+                    print!("{0: <6} ", pos.to_string().cyan());
+                    println!("=> {}", s.trim().blue());
                 }
             }
         }
-        None => println!("Nothing 2"),
+        None => println!("Error in reading File"),
     }
+    println!("");
 }
 
 fn main() {
@@ -47,9 +63,14 @@ fn main() {
         ap.refer(&mut path)
             .add_option(&["-p", "--path"], Store, "Path to folder");
         ap.refer(&mut query)
-            .add_option(&["-q", "--query"], Store, "Query string to find");
+            .add_option(&["-q", "--query"], Store, "Query string to find")
+            .required();
         ap.parse_args_or_exit();
     }
-    println!("{} {}", path, query);
+    println!(
+        "Searching '{}' in {}\n",
+        query.green().bold(),
+        path.italic()
+    );
     check_dir(&path, &query);
 }
