@@ -50,6 +50,10 @@ cargo build --release
 ```
 It will create a binary in `target/release`, copy it to `/usr/bin` and you are good to go.
 
+Or simply do 
+
+`cargo install locate`
+
 ---
 
 ## **Give it a Test Run**
