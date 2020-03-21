@@ -5,6 +5,7 @@ authors = ["Prakhar <b118038@iiit-bh.ac.in>"]
 description = "A tool to search all the occurrences of a string in all the files in directory"
 readme = "README.md"
 repository = "https://github.com/pr4k/locate"
+license-file = "LICENSE"
 keywords = ["cli","search","rust"]
 edition = "2018"
 
