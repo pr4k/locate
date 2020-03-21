@@ -1,18 +1,44 @@
-# Locate
 
-[![GitHub issues](https://img.shields.io/github/issues/pr4k/locate)](https://github.com/pr4k/locate/issues)
-[![GitHub forks](https://img.shields.io/github/forks/pr4k/locate)](https://github.com/pr4k/locate/network)
-[![GitHub stars](https://img.shields.io/github/stars/pr4k/locate)](https://github.com/pr4k/locate/stargazers)
-[![Github action](https://github.com/pr4k/locate/workflows/Publish/badge.svg)](https://github.com/pr4k/locate/workflows/Publish/badge.svg)
-[![Rustc 1.42](https://img.shields.io/badge/rustc-1.42-red.svg)](https://img.shields.io/badge/rustc-1.42-red.svg)
 
-How many times have you gone through files to find some string, or maybe want to know where you have used a name.
+<p align="center">
+    <img src="img/locate.png" width="490" alt"howto" >
+    <br>
+    <img src="https://img.shields.io/github/v/release/pr4k/locate"
+        alt="Release">
+    <img src="https://img.shields.io/badge/language-rust-red.svg" alt="Language">
+    <img src="https://github.com/pr4k/locate/workflows/Publish/badge.svg" alt="Passing">
+    <img src="https://img.shields.io/github/stars/pr4k/locate" alt="Stars">
+    <img src="https://img.shields.io/github/issues/pr4k/locate" alt="Issues">
+    <img src="https://img.shields.io/github/forks/pr4k/locate" alt="Forks">
+</p>
+<p align="center">
+    <a href="#key-features">Key Features</a> •
+    <a href="#usage">Usage</a> •
+    <a href="#give-it-a-test-run">Test Run</a> •
+    <a href="#installation">Installation</a> •
+    <a href="#to-do">To-Do</a> •
+    <a href="#license">License</a>
+</p>
 
-Locate is a tool written in *Rust* which goes through each file and gives exact location of the occurence of a name or string in the file.
+> A recursive Search Tool written in Rust
+
+How many times have you gone through files in search of a string, or finding origin of a function.
+
+Locate is a tool written in *Rust* which goes through each file and gives **exact location of the string** in the file.
+
+---
+## **Key Features**
+- Works on **Windows**, **MacOS** and **Linux**
+- Blazing **Fast**
+  
+  ![speed](img/speed.gif)
+
+- Finds String Deep Inside **Directory Structure**
+  
 
 ---
 
-## Installation 
+## **Installation** 
 
 ``` bash
 # Clone the repo
@@ -26,15 +52,14 @@ It will create a binary in `target/release`, copy it to `/usr/bin` and you are g
 
 ---
 
-## Give it a Test Run
-
+## **Give it a Test Run**
 Don't want to clone the project, *No worries!!* 
 
-Go to the releases and downlaod the latest release, copy it to `/usr/bin` that's all.
+Go to the **releases** and downlaod the latest release, copy it to `/usr/bin` that's all.
 
 ---
 
-## Usage
+## **Usage**
 
 ```bash
 ➜  ~ locate -h                       
@@ -51,17 +76,17 @@ Optional arguments:
 Try `locate -p /path/to/folder -q /string-to-be-searched`
 
 
-[![asciicast](https://asciinema.org/a/9uBSxwooJEGBLNZvoaW5zPPhF.svg)](https://asciinema.org/a/9uBSxwooJEGBLNZvoaW5zPPhF)
 
+<a href="https://asciinema.org/a/9uBSxwooJEGBLNZvoaW5zPPhF"><img src = "https://asciinema.org/a/9uBSxwooJEGBLNZvoaW5zPPhF.png" width = 500/></a>
 ---
 
-## TO-Do
+## **TO-DO**
 
-- Add regex support for the search string
+- Add **regex** support for the search string
 - Control Folder depth for search
 - Provide option to replace the searched word by another
   
-## License
+## **License**
 [![GitHub license](https://img.shields.io/github/license/pr4k/locate)](https://github.com/pr4k/locate)
 
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
