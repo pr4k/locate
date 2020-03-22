@@ -1,7 +1,7 @@
 
 
 <p align="center">
-    <img src="img/locate.png" width="490" alt"howto" >
+    <img src="img/locate.gif" width="490" alt"howto" >
     <br>
     <img src="https://img.shields.io/github/v/release/pr4k/locate"
         alt="Release">
