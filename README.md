@@ -15,6 +15,7 @@
     <a href="#key-features">Key Features</a> •
     <a href="#usage">Usage</a> •
     <a href="#give-it-a-test-run">Test Run</a> •
+    <a href="#demo">Demo</a> •
     <a href="#installation">Installation</a> •
     <a href="#to-do">To-Do</a> •
     <a href="#license">License</a>
@@ -79,9 +80,13 @@ Optional arguments:
 ```
 Try `locate -p /path/to/folder -q /string-to-be-searched`
 
+---
 
+## **Demo**
+<a href="https://asciinema.org/a/9uBSxwooJEGBLNZvoaW5zPPhF"><img src = "img/demo.gif" width = 500/></a>
 
-<a href="https://asciinema.org/a/9uBSxwooJEGBLNZvoaW5zPPhF"><img src = "https://asciinema.org/a/9uBSxwooJEGBLNZvoaW5zPPhF.png" width = 500/></a>
+Click on image to get a Asciinema shot:
+
 ---
 
 ## **TO-DO**

@@ -41,11 +41,14 @@ fn check_file(file_path: &Path, query: &str) {
     );
     match fstream::read_lines(file_path) {
         Some(s) => {
-            for (pos, s) in s.iter().enumerate() {
+            for (pos, s) in &mut s.iter().enumerate() {
                 if s.contains(query) {
+                    let s = s.trim().to_string();
+                    let mut s = s.clone();
+                    s.truncate(2000);
                     print!("{}", "Line ".green().bold());
                     print!("{0: <6} ", pos.to_string().cyan());
-                    println!("=> {}", s.trim().blue());
+                    println!("=> {}", s.blue());
                 }
             }
         }
