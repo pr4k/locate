@@ -43,8 +43,7 @@ fn check_file(file_path: &Path, query: &str) {
         Some(lines) => {
             for (pos, line) in &mut lines.iter().enumerate() {
                 if line.contains(query) {
-                    let mut line = line.trim().to_string().clone();
-                    line.truncate(2000);
+                    let line: String = line.trim().chars().take(2000).collect();
                     print!("{}", "Line ".green().bold());
                     print!("{0: <6} ", pos.to_string().cyan());
                     println!("=> {}", line.blue());
