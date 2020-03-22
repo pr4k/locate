@@ -1,6 +1,6 @@
 [package]
 name = "locate"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Prakhar <b118038@iiit-bh.ac.in>"]
 description = "A tool to search all the occurrences of a string in all the files in directory"
 readme = "README.md"
