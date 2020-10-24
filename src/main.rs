@@ -1,14 +1,21 @@
-extern crate argparse;
 extern crate colored;
 extern crate fstream;
 extern crate walkdir;
 
-use argparse::{ArgumentParser, Store};
+use structopt::StructOpt;
 use colored::*;
 use std::path::Path;
 use walkdir::WalkDir;
 
-fn check_dir(path: &str, query: &str) {
+#[derive(Debug, StructOpt)]
+struct Cmd {
+    path:String,
+    query:String,
+    #[structopt(short, long)]
+    color: bool,
+}
+
+fn check_dir(path: &str, query: &str, color: &bool) {
     let mut total_files_scanned = 0;
     for (fl_no, file) in WalkDir::new(path)
         .into_iter()
@@ -19,7 +26,7 @@ fn check_dir(path: &str, query: &str) {
             match fstream::contains(file.path(), query) {
                 Some(b) => {
                     if b {
-                        check_file(file.path(), query);
+                        check_file(file.path(), query, color);
                     }
                 }
                 None => println!("Error in walking Dir"),
@@ -27,14 +34,20 @@ fn check_dir(path: &str, query: &str) {
         }
         total_files_scanned = fl_no;
     }
-
-    println!(
-        "Total Scanned files {}",
-        total_files_scanned.to_string().bold()
-    );
+    if *color == true {
+        println!(
+            "Total scanned files {}",
+            total_files_scanned.to_string().bold()
+        );
+    } else {
+        println!(
+            "Total scanned files {}",
+            total_files_scanned
+        );
+    }
 }
 
-fn check_file(file_path: &Path, query: &str) {
+fn check_file(file_path: &Path, query: &str, color: &bool) {
     println!(
         "In file {}\n",
         file_path.display().to_string().magenta().italic()
@@ -44,9 +57,15 @@ fn check_file(file_path: &Path, query: &str) {
             for (pos, line) in &mut lines.iter().enumerate() {
                 if line.contains(query) {
                     let line: String = line.trim().chars().take(2000).collect();
-                    print!("{}", "Line ".green().bold());
-                    print!("{0: <6} ", pos.to_string().cyan());
-                    println!("=> {}", line.blue());
+                    if *color == true {
+                        print!("{}", "Line ".green().bold());
+                        print!("{0: <6} ", pos.to_string().cyan());
+                        println!("=> {}", line.blue());
+                    } else {
+                        print!("{}", "Line ");
+                        print!("{0: <6} ", pos.to_string());
+                        println!("=> {}", line);
+                    }
                 }
             }
         }
@@ -56,22 +75,24 @@ fn check_file(file_path: &Path, query: &str) {
 }
 
 fn main() {
-    let mut path = ".".to_string();
-    let mut query = "query".to_string();
-    {
-        let mut ap = ArgumentParser::new();
-        ap.set_description("Recursive string locater in files");
-        ap.refer(&mut path)
-            .add_option(&["-p", "--path"], Store, "Path to folder");
-        ap.refer(&mut query)
-            .add_option(&["-q", "--query"], Store, "Query string to find")
-            .required();
-        ap.parse_args_or_exit();
+
+    let args = Cmd::from_args();
+
+    let path = args.path;
+    let query = args.query;
+
+    if args.color == true {
+        println!(
+            "Searching '{}' in {}",
+            query.green().bold(),
+            path.italic()
+        );
+    }else {
+        println!(
+            "Searching '{}' in {}",
+            query,
+            path
+        );
     }
-    println!(
-        "Searching '{}' in {}\n",
-        query.green().bold(),
-        path.italic()
-    );
-    check_dir(&path, &query);
+    check_dir(&path, &query, &args.color);
 }
