@@ -14,6 +14,5 @@ edition = "2018"
 [dependencies]
 fstream = "0.1.2"
 walkdir = "2.3.1"
-argparse = "0.2.2"
 colored = "1.9"
-
+structopt = "0.3.20"
