@@ -9,9 +9,11 @@ use walkdir::WalkDir;
 
 #[derive(Debug, StructOpt)]
 struct Cmd {
+    #[structopt(short = "p", long = "path")]
     path:String,
+    #[structopt(short = "q", long = "query")]
     query:String,
-    #[structopt(short, long)]
+    #[structopt(short = "c", long = "color")]
     color: bool,
 }
 
@@ -75,7 +77,6 @@ fn check_file(file_path: &Path, query: &str, color: &bool) {
 }
 
 fn main() {
-
     let args = Cmd::from_args();
 
     let path = args.path;
