@@ -1,6 +1,6 @@
 [package]
 name = "locate"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Prakhar <b118038@iiit-bh.ac.in>"]
 description = "A tool to search all the occurrences of a string in all the files in directory"
 readme = "README.md"
@@ -15,4 +15,8 @@ edition = "2018"
 fstream = "0.1.2"
 walkdir = "2.3.1"
 colored = "1.9"
-structopt = "0.3.20"
+clap = "3.0.0-beta.2"
+clap_generate = "3.0.0-beta.2"
+
+[build-dependencies]
+
