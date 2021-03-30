@@ -139,7 +139,7 @@ fn main() {
     let query = args.query.unwrap();
     regexp = args.regexp;
 
-    if args.color == true {
+    if args.color {
         println!("Searching '{}' in {}", query.green().bold(), path.italic());
     } else {
         println!("Searching '{}' in {}", query, path);
