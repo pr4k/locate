@@ -1,10 +1,12 @@
 extern crate colored;
 extern crate fstream;
 extern crate walkdir;
+extern crate regex;
 
 use clap::{Clap, IntoApp};
 use clap_generate::{generate, generators::*};
 use colored::*;
+use regex::Regex;
 use std::path::Path;
 use walkdir::WalkDir;
 
@@ -15,6 +17,8 @@ struct Cmd {
     path: Option<String>,
     #[clap(short, long)]
     query: Option<String>,
+    #[clap(short, long)]
+    regexp: bool,
     #[clap(short, long)]
     color: bool,
     #[clap(short, long, arg_enum, value_name = "SHELL")]
@@ -44,7 +48,7 @@ impl Shell {
     }
 }
 
-fn check_dir(path: &str, query: &str, color: &bool) {
+fn check_dir(path: &str, query: &str, color: &bool, regexp: &bool) {
     let mut total_files_scanned = 0;
     for (fl_no, file) in WalkDir::new(path)
         .into_iter()
@@ -55,7 +59,7 @@ fn check_dir(path: &str, query: &str, color: &bool) {
             match fstream::contains(file.path(), query) {
                 Some(b) => {
                     if b {
-                        check_file(file.path(), query, color);
+                        check_file(file.path(), query, color, regexp);
                     }
                 }
                 None => println!("Error in walking Dir"),
@@ -73,7 +77,7 @@ fn check_dir(path: &str, query: &str, color: &bool) {
     }
 }
 
-fn check_file(file_path: &Path, query: &str, color: &bool) {
+fn check_file(file_path: &Path, query: &str, color: &bool, regexp:&bool) {
     if *color == true {
         println!(
             "In file {}\n",
@@ -87,7 +91,7 @@ fn check_file(file_path: &Path, query: &str, color: &bool) {
             for (pos, line) in &mut lines.iter().enumerate() {
                 if line.contains(query) {
                     let line: String = line.trim().chars().take(2000).collect();
-                    if *color == true {
+                    if *color {
                         print!("{}", "Line ".green().bold());
                         print!("{0: <6} ", pos.to_string().cyan());
                         println!("=> {}", line.blue());
@@ -96,6 +100,22 @@ fn check_file(file_path: &Path, query: &str, color: &bool) {
                         print!("{0: <6} ", pos.to_string());
                         println!("=> {}", line);
                     }
+                    if *regexp {
+                        let re = Regex::new(query).unwrap();
+                        if re.is_match(&line){
+                            let line: String = line.trim().chars().take(2000).collect();
+                            if *color {
+                                print!("{}", "Line ".green().bold());
+                                print!("{0: <6} ", pos.to_string().cyan());
+                                println!("=> {}", line.blue());
+                            } else {
+                                print!("{}", "Line ");
+                                print!("{0: <6} ", pos.to_string());
+                                println!("=> {}", line);
+                            }
+                        }
+                    }
+
                 }
             }
         }
@@ -105,7 +125,10 @@ fn check_file(file_path: &Path, query: &str, color: &bool) {
 }
 
 fn main() {
+
+    let mut regexp= false;
     let args = Cmd::parse();
+
 
     if let Some(shell) = args.shellcompletions {
         shell.generate();
@@ -114,11 +137,13 @@ fn main() {
 
     let path = args.path.unwrap();
     let query = args.query.unwrap();
+    regexp = args.regexp;
 
-    if args.color == true {
+    if args.color {
         println!("Searching '{}' in {}", query.green().bold(), path.italic());
     } else {
         println!("Searching '{}' in {}", query, path);
     }
-    check_dir(&path, &query, &args.color);
+    check_dir(&path, &query, &args.color, &regexp);
+
 }
